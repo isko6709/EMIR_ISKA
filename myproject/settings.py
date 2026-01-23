@@ -114,3 +114,4 @@ MEDIA_URL = '/media/'
 
 AUTH_USER_MODEL = 'house_app.UserProfile'
 
+

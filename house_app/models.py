@@ -10,7 +10,7 @@ class UserProfile(AbstractUser):
         ('buyer', 'buyer'),
     )
     age = models.PositiveSmallIntegerField(validators=[MinValueValidator(18),
-                                                       MaxValueValidator(99)])
+                                                       MaxValueValidator(99)], default=18)
     email = models.EmailField(unique=True)
     phone_number = PhoneNumberField(null=True, blank=True)
     role = models.CharField(max_length=20, choices=ROLE_CHOICES, default='buyer')
