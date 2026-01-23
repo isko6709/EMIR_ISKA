@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'house_app',
     "phonenumber_field",
     'rest_framework_simplejwt',
+    'django_filters',
 ]
 
 MIDDLEWARE = [
