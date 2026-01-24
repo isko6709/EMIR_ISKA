@@ -6,6 +6,9 @@ from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
 
+from .permissions import (IsAdmin, IsSeller, IsBuyer, CanCreateProperty,
+                          IsOwnerOfProperty, ReadOnlyOrSeller, CanCreateReview)
+
 from .models import (
     UserProfile, Region, City, District,
     Property, PropertyImage, PropertyDocument,
@@ -58,6 +61,7 @@ class LogoutView(generics.GenericAPIView):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = UserProfile.objects.all()
     serializer_class = UserSerializer
+    permission_classes = [permissions.IsAuthenticated]
 
     def get_queryset(self):
         return UserProfile.objects.filter(id=self.request.user.id)
@@ -100,7 +104,7 @@ class PropertyDetailAPIView(generics.RetrieveAPIView):
 class PropertyViewSet(viewsets.ModelViewSet):
     queryset = Property.objects.all()
     serializer_class = PropertyDetailSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [ReadOnlyOrSeller, IsOwnerOfProperty]
 
     def perform_create(self, serializer):
         serializer.save(seller=self.request.user)
@@ -127,7 +131,7 @@ class ReviewListAPView(generics.ListAPIView):
 class ReviewViewSet(viewsets.ModelViewSet):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
-    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    permission_classes = [CanCreateReview]
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
