@@ -6,20 +6,18 @@ from .views import (
     RegionViewSet,
     CityViewSet,
     DistrictViewSet,
-    PropertyListAPView,
-    PropertyDetailAPView,
     PropertyViewSet,
     PropertyImageViewSet,
     PropertyDocumentViewSet,
-    ReviewListAPView,
     ReviewViewSet,
+    PropertyListAPIView,
+    PropertyDetailAPIView,
     RegisterView,
     LoginView,
     LogoutView,
 )
 
 router = SimpleRouter()
-
 router.register(r'users', UserViewSet, basename='users')
 router.register(r'regions', RegionViewSet, basename='regions')
 router.register(r'cities', CityViewSet, basename='cities')
@@ -29,12 +27,11 @@ router.register(r'property-images', PropertyImageViewSet, basename='property-ima
 router.register(r'property-documents', PropertyDocumentViewSet, basename='property-documents')
 router.register(r'reviews', ReviewViewSet, basename='reviews')
 
-
 urlpatterns = [
-    path("", include(router.urls)),
-    path('properties-list/', PropertyListAPView.as_view(), name='property-list'),
-    path('properties/<int:pk>/', PropertyDetailAPView.as_view(), name='property-detail'),
-    path('register/', RegisterView.as_view(), name='register'),
-    path('login/', LoginView.as_view(), name='login'),
-    path('logout/', LogoutView.as_view(), name='logout')
+    path('', include(router.urls)),
+    path('auth/register/', RegisterView.as_view(), name='register'),
+    path('auth/login/', LoginView.as_view(), name='login'),
+    path('auth/logout/', LogoutView.as_view(), name='logout'),
+    path('properties-list/', PropertyListAPIView.as_view(), name='property-list'),
+    path('properties/<int:pk>/', PropertyDetailAPIView.as_view(), name='property-detail'),
 ]

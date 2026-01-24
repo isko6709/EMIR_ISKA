@@ -81,17 +81,17 @@ class DistrictViewSet(viewsets.ModelViewSet):
     permission_classes = [permissions.AllowAny]
 
 
-class PropertyListAPView(generics.ListAPIView):
+class PropertyListAPIView(generics.ListAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertyListSerializer
     filter_backends = [DjangoFilterBackend, SearchFilter, OrderingFilter]
     search_fields = ['title', 'description', 'address', 'city__name']
     ordering_fields = ['price', 'created_date']
     permission_classes = [permissions.AllowAny]
-    filterset_classes = PropertyFilter
+    filterset_class = PropertyFilter
     pagination_class = PropertyPagination
 
-class PropertyDetailAPView(generics.RetrieveAPIView):
+class PropertyDetailAPIView(generics.RetrieveAPIView):
     queryset = Property.objects.all()
     serializer_class = PropertyDetailSerializer
     permission_classes = [permissions.AllowAny]
