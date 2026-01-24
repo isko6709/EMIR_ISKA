@@ -1,6 +1,7 @@
 from rest_framework import viewsets, generics, permissions, status
 from rest_framework.filters import SearchFilter, OrderingFilter
 from django_filters.rest_framework import DjangoFilterBackend
+from .pagination import PropertyPagination
 from rest_framework_simplejwt.tokens import RefreshToken
 from rest_framework_simplejwt.views import TokenObtainPairView
 from rest_framework.response import Response
@@ -88,7 +89,7 @@ class PropertyListAPView(generics.ListAPIView):
     ordering_fields = ['price', 'created_date']
     permission_classes = [permissions.AllowAny]
     filterset_classes = PropertyFilter
-
+    pagination_class = PropertyPagination
 
 class PropertyDetailAPView(generics.RetrieveAPIView):
     queryset = Property.objects.all()
