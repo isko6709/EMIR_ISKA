@@ -107,23 +107,20 @@ class ReviewSerializer(serializers.ModelSerializer):
 
 
 class PropertyDetailSerializer(serializers.ModelSerializer):
-    seller = UserNameSerializer()
-    region = RegionSerializer()
-    city = CitySerializer()
-    district = DistrictSerializer()
-    images = PropertyImageSerializer(many=True)
-    documents = PropertyDocumentSerializer(many=True)
-    reviews_written = ReviewSerializer(many=True)
+    seller = UserSerializer(read_only=True)
+    seller_reviews = ReviewSerializer(
+        source='seller.reviews_received',
+        many=True,
+        read_only=True
+    )
 
     class Meta:
         model = Property
-        fields = [
-            'id', 'title', 'description', 'price',
-            'region', 'city', 'district', 'address',
-            'property_type', 'condition',
-            'area', 'rooms', 'floor', 'total_floors',
+        fields = (
+            'id',
+            'title',
+            'description',
+            'price',
             'seller',
-            'images', 'documents',
-            'created_date', 'is_active',
-            'reviews_written'
-        ]
+            'seller_reviews',
+        )
